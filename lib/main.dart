@@ -27,11 +27,10 @@ class Intro extends StatefulWidget {
 
 class _IntroState extends State<Intro> {
   TextEditingController _securityController = TextEditingController();
+  String tip = "Tip:- Click on fingerPrint icon above to authorize";
 
   final LocalAuthentication _localAuthentication = LocalAuthentication();
-  bool _canCheckBiometric = false;
   String _authorizedOrNot = "Not Authorized";
-  List<BiometricType> _availableBiometricType = List<BiometricType>();
 
   Future<void> _authorizeNow() async {
     bool isAuthorized = false;
@@ -59,7 +58,9 @@ class _IntroState extends State<Intro> {
     if (_securityController.text == preferences.getString("security")) {
       Navigator.pushNamed(context, '/Homepage');
     } else {
-      print("Not allowed");
+      setState(() {
+        tip = "Invalid Password Try Again !!";
+      });
     }
   }
 
@@ -74,27 +75,23 @@ class _IntroState extends State<Intro> {
       blurRadius: 15.0,
       spreadRadius: 1.0);
 
-  Widget _button(int btval) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: MaterialButton(
-          height: 30,
-          minWidth: 30,
-          elevation: 0.0,
-          onPressed: () {
-            setState(() {
-              _securityController.text = btval.toString();
-            });
-          },
-          child: Text(
-            "$btval",
-            style: TextStyle(
-                fontSize: 40,
-                color: Colors.orange,
-                fontWeight: FontWeight.w600),
+  Widget appfeature(
+      MainAxisAlignment _mainAxis, String title, String subtitle, Icon icons) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Row(
+        mainAxisAlignment: _mainAxis,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.09,
+            width: MediaQuery.of(context).size.width * 0.7,
+            color: Colors.grey[300],
+            child: ListTile(
+                title: Text("$title"),
+                subtitle: Text("$subtitle"),
+                trailing: icons),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -160,11 +157,10 @@ class _IntroState extends State<Intro> {
                       fillColor: Colors.orange),
                 ),
               ),
-              SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.only(right: 16.0, left: 16, top: 10),
                 child: Container(
-                    height: MediaQuery.of(context).size.height * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.05,
                     width: MediaQuery.of(context).size.width * 1.0,
                     decoration: BoxDecoration(
                       color: Color.fromRGBO(54, 50, 58, 1.0),
@@ -173,76 +169,55 @@ class _IntroState extends State<Intro> {
                     alignment: Alignment.center,
                     child: Column(
                       children: [
-                        ListTile(
-                          trailing: Icon(
-                            Icons.radio_button_checked,
-                            color: Colors.orange,
-                          ),
-                          onTap: () {},
-                          title: Text(
-                            "Can we check FingerPrint",
-                            style: TextStyle(color: Colors.white54),
-                          ),
-                        ),
-                        ListTile(
-                          trailing: Icon(
-                            Icons.radio_button_checked,
-                            color: Colors.orange,
-                          ),
-                          onTap: () {},
-                          title: Text(
-                            "Can we check FingerPrint",
-                            style: TextStyle(color: Colors.white54),
-                          ),
-                        ),
-                        ListTile(
-                          trailing: Icon(
-                            Icons.radio_button_checked,
-                            color: Colors.orange,
-                          ),
-                          onTap: () {},
-                          title: Text(
-                            "Can we check FingerPrint",
-                            style: TextStyle(color: Colors.white54),
-                          ),
-                        ),
-                        Divider(thickness: 3,height: 0.3),
+                        Divider(thickness: 3, height: 0.3),
                         Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Text(
-                            'Tip:- Click on finger icon above to authorize',
-                            style: TextStyle(
-                              color: Colors.orange
-                            ),
+                            '$tip',
+                            style: TextStyle(color: Colors.orange),
                           ),
                         )
                       ],
                     )),
               ),
-              // SizedBox(height: 100),
+              appfeature(
+                MainAxisAlignment.start,
+                "1.FingerPrint",
+                "This app is fingerprint secured",
+                Icon(Icons.fingerprint, size: 30, color: Colors.deepOrange),
+              ),
+              appfeature(
+                MainAxisAlignment.end,
+                "2.Dual Security",
+                "i.e. FingerLock + Passcode",
+                Icon(Icons.lock, size: 30, color: Colors.deepOrange),
+              ),
+              appfeature(
+                MainAxisAlignment.start,
+                "3.PassWord Generator",
+                "In-Built password generator",
+                Icon(Icons.looks, size: 30, color: Colors.deepOrange),
+              ),
               Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    MaterialButton(
-                      minWidth: 200,
-                      color: Colors.orange,
-                      child: Text(
-                        "Enter",
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black),
-                      ),
-                      height: 50,
-                      onPressed: () {
-                        check();
-                      },
-                    ),
-                  ],
+                padding:
+                    const EdgeInsets.only(top: 16.0, left: 16.0, right: 16),
+                child: MaterialButton(
+                  minWidth: 200,
+                  color: Colors.orange,
+                  child: Text(
+                    "Enter",
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
+                  ),
+                  height: 50,
+                  onPressed: () {
+                    check();
+                  },
                 ),
               ),
+              Text("New User please use finger,If Passcode is not set")
             ],
           ),
         ),

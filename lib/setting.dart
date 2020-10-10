@@ -78,7 +78,7 @@ class _SettingState extends State<Setting> {
                       builder: (param) {
                         return AlertDialog(
                           title: Text("About"),
-                          content: Text("Made with \u{1f44f} \u2665\nGithub (@3Divyanshu) ☜(ಠ_ಠ☜)"),
+                          content: Text("Made with \u{1f44f} \u2665\nGithub (@3Divyanshu)"),
                           actions: [
                             OutlineButton(
                               child: Text("Back"),
