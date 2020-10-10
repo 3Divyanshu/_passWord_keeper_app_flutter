@@ -1,6 +1,6 @@
 # pass_word
 
-A new Flutter project.
+App desinged to store data like passwords using SqFLite, Random Alphanumeric password generator, Biometric Security feature, Dark Theme
 
 ## Getting Started
 
